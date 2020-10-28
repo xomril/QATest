@@ -1,5 +1,7 @@
 
 import java.io.File;
+import java.util.List;
+
 import org.apache.commons.io.FileUtils;
 import org.junit.AfterClass;
 import org.junit.Test;
@@ -8,10 +10,7 @@ import org.junit.BeforeClass;
 import static junit.framework.TestCase.assertEquals;
 
 
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
@@ -19,23 +18,22 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 public class test1 {
   private static WebDriver driver;
-  private static String url = "http://the-internet.herokuapp.com/dynamic_loading/2";
+
   private static TestPageObject testPage;
+  private static ShufersalPageObject sho;
   JavascriptExecutor js = (JavascriptExecutor)driver;
 
 
   @BeforeClass
   public static void beforeTest() {
     System.setProperty("webdriver.chrome.driver", "chromedriver");
+    System.setProperty("webdriver.chrome.whitelistedIps", "");
     ChromeOptions chromeOptions = new ChromeOptions();
     chromeOptions.addArguments("--headless");
     chromeOptions.addArguments("--no-sandbox");
     driver = new ChromeDriver();
+    sho = new ShufersalPageObject(driver);
 
-    driver.navigate().to(url);
-
-    testPage = new TestPageObject(driver);
-    testPage.clickStartButton();
   }
   @AfterClass
   public static void afterTest() {
@@ -43,8 +41,11 @@ public class test1 {
   }
 
   @Test
-  public void test_one() {
-    assertEquals("div test:", testPage.getResultsDiv(),"Hello World!");
+  public void test_one() throws InterruptedException {
+    assertEquals(sho.isLogoLoaded(),true);
+    sho.login("lhagit@gmail.com", "shufersal0811");
+    sho.addFirstProductToCart("חלב");
+    Thread.sleep(5000);
   }
 
   @Test
