@@ -43,7 +43,7 @@ public class test1 {
   @Test
   public void test_one() throws InterruptedException {
     assertEquals(sho.isLogoLoaded(),true);
-    sho.login("lhagit@gmail.com", "shufersal0811");
+    sho.login("", "");
     sho.addFirstProductToCart("חלב");
     Thread.sleep(5000);
   }
